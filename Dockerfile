@@ -51,7 +51,7 @@ LABEL Description="This is a base image, which allows connecting Jenkins agents 
 
 COPY bin/jenkins-slave /usr/local/bin/jenkins-slave
 ENV KUBERNETES_VERSION=v1.17.2
-ENV HELM_VERSION=v2.16.1
+ENV HELM_VERSION=v3
 ENV DOCKER_GROUP_ID=993
 
 USER root
@@ -64,7 +64,7 @@ RUN groupadd -g ${DOCKER_GROUP_ID} docker && usermod -aG docker jenkins && \
     rm -rf /var/lib/apt/lists/* && pip install awscli && \
     curl -LO https://storage.googleapis.com/kubernetes-release/release/${KUBERNETES_VERSION}/bin/linux/amd64/kubectl && \
     chmod +x ./kubectl && mv ./kubectl /usr/local/bin/kubectl && \
-    curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get > get_helm.sh && chmod 700 get_helm.sh && DESIRED_VERSION=${HELM_VERSION} ./get_helm.sh && \
+    curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 && chmod 700 get_helm.sh && ./get_helm.sh && \
     rm get_helm.sh 
 USER jenkins
 
