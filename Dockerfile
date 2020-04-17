@@ -65,7 +65,8 @@ RUN groupadd -g ${DOCKER_GROUP_ID} docker && usermod -aG docker jenkins && \
     curl -LO https://storage.googleapis.com/kubernetes-release/release/${KUBERNETES_VERSION}/bin/linux/amd64/kubectl && \
     chmod +x ./kubectl && mv ./kubectl /usr/local/bin/kubectl && \
     curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 && chmod 700 get_helm.sh && ./get_helm.sh && \
-    rm get_helm.sh 
+    rm get_helm.sh && \
+    chmod 777 /usr/local/bin/jenkins-slave
 USER jenkins
 
-ENTRYPOINT ["jenkins-slave"]
+ENTRYPOINT ["/usr/local/bin/jenkins-slave"]
